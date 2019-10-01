@@ -1,20 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_zero_to_hero/src/widgets/template/homeTemplate.dart';
+import 'package:flutter_zero_to_hero/src/models/cart.dart';
+import 'package:flutter_zero_to_hero/src/shared/data_dummy.dart';
+import 'package:flutter_zero_to_hero/src/widgets/organisms/appbar_action_buttons.dart';
+import 'package:flutter_zero_to_hero/src/widgets/template/CartTemplate.dart';
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class HomePage extends StatefulWidget {
+  @override
+  _HomePage createState() => _HomePage();
+}
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+class _HomePage extends State<HomePage> {
+  String title;
+  Cart cart;
 
   @override
-  HomeTemplate createState() => HomeTemplate();
+  void initState() {
+    super.initState();
+
+    setState(() {
+      title = "My Cart";
+      cart = Cart.fromMap(DataDummy.cart);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(color: Colors.black),
+        actions: AppbarActionButtons(),
+      ),
+      body: CartTemplate(
+        title: title.toUpperCase(),
+        products: cart.items,
+        totalPrice: cart.totalPrice,
+      ),
+    );
+  }
 }
